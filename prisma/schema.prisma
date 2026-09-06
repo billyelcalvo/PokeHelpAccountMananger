@@ -1,8 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -10,4 +5,25 @@ generator client {
 
 datasource db {
   provider = "postgresql"
+}
+model Account{
+  id Int @id @default(@autoincrement())
+  name String
+  email String
+  password String
+
+  pokemons Pokemon[]
+}
+model Pokemon{
+
+}
+model IV{
+  attack Int
+  hp Int
+  defense Int
+
+}
+
+enum PokemonTypes{
+  
 }
