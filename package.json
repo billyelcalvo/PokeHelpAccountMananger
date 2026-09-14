@@ -1,11 +1,17 @@
 {
   "name": "pokeaccounthelpmananger",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Local API for managing Pokemon GO accounts and Pokemon with optional IVs",
+  "main": "dist/src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "nodemon --exec tsx index.ts"
+    "dev": "nodemon --watch src --ext ts --exec tsx src/index.ts",
+    "build": "prisma generate && tsc",
+    "start": "node dist/src/index.js",
+    "typecheck": "tsc --noEmit",
+    "db:generate": "prisma generate",
+    "db:migrate": "prisma migrate dev",
+    "db:deploy": "prisma migrate deploy",
+    "db:validate": "prisma validate"
   },
   "keywords": [],
   "author": "",
