@@ -1,43 +1,50 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider     = "prisma-client"
+  output       = "../generated/prisma"
+  moduleFormat = "cjs"
 }
 
 datasource db {
   provider = "postgresql"
 }
-model Account{
-  id Int @id @default(autoincrement())
-  name String
-  email String
+
+model Account {
+  id       Int    @id @default(autoincrement())
+  name     String
+  email    String
   password String
 
   pokemons Pokemon[]
 }
-model Pokemon{
-  id Int @id @default(autoincrement())
-  name String 
-  ivId Int 
-  typeId Int 
+
+model Pokemon {
+  id        Int    @id @default(autoincrement())
+  name      String
+  ivId      Int?   @unique
+  typeId    Int
   accountId Int
 
-  iv IV @relation(fields: [ivId], references: [id])
-  type PokemonType @relation(fields: [typeId], references : [id])
-  account Account @relation(fields: [accountId], references: [id])
+  iv      IV?         @relation(fields: [ivId], references: [id])
+  type    PokemonType @relation(fields: [typeId], references: [id])
+  account Account     @relation(fields: [accountId], references: [id])
+
+  @@index([accountId])
+  @@index([typeId])
 }
-model IV{
-  id Int @id @default(autoincrement())
-  attack Int
-  hp Int
+
+model IV {
+  id      Int @id @default(autoincrement())
+  attack  Int
+  hp      Int
   defense Int
 
-  pokemon Pokemon[]
+  pokemon Pokemon?
 }
 
-model PokemonType{
-  id Int @id @default(autoincrement())
+model PokemonType {
+  id   Int     @id @default(autoincrement())
   type String
-  icon String
+  icon String?
 
   pokemon Pokemon[]
 }

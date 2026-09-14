@@ -1,14 +1,15 @@
-import {z} from 'zod';
+import { z } from 'zod';
+import { nonEmptyUpdate, positiveId, requiredText } from './common';
 
-export const accountSchema = z.object({
-    id : z.number().int(),
-    name : z.string(),
-    email : z.email(),
-    password:  z.string()
+export const createAccountSchema = z.strictObject({
+  name: requiredText,
+  email: z.string().trim().pipe(z.email()),
+  password: z.string().min(1),
 });
 
-export const createAccountSchema = accountSchema.omit({
-    id : true
+export const accountSchema = createAccountSchema.extend({ id: positiveId });
+export const updateAccountSchema = createAccountSchema.partial().refine(nonEmptyUpdate, {
+  message: 'Provide at least one field to update',
 });
 
 export type Account = z.infer<typeof accountSchema>;
